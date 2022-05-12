@@ -1,4 +1,31 @@
-form input[type='file'] {
-    width: 0;
-    height: 0;
+* {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.endpoint {
+    border-radius: 6px;
+}
+
+.endpoint.put {
+    background: #bcd9fa;
+    border: 2px solid #78adea;
+}
+.endpoint.post {
+    background: #bcfad4;
+    border: 2px solid #8cdbab;
+}
+
+summary, pre {
+    font-family: monospace;
+}
+summary {
+    padding: 10px;
+    cursor: pointer;
+}
+summary::-webkit-details-marker, summary::marker {
+    margin-right: 15px;
+}
+
+details ul li {
+    margin-bottom: 10px;
 }

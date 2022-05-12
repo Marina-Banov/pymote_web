@@ -1,9 +1,8 @@
 import base64
 import os
 from django.core.files.storage import FileSystemStorage
-# from django.http import JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.views import View
 from pymote import read_pickle
 from rest_framework.decorators import api_view
@@ -30,16 +29,10 @@ def upload_network(request):
             image_base64 = base64.b64encode(image_file.read())
         fs.delete(filename)
 
-        # print len(net.nodes())
-        context = {'image': 'data:image/png;base64,' + image_base64}
-        # return JsonResponse(context)
-        request.session["context"] = context
-        return redirect(reverse('index'))
+        res = {'image': 'data:image/png;base64,' + image_base64}
+        return JsonResponse(res)
 
 
 class IndexView(View):
     def get(self, request):
-        context = request.session.get("context", {})
-        if context != {}:
-            del request.session["context"]
-        return render(request, 'main_app/index.html', context)
+        return render(request, 'main_app/index.html')

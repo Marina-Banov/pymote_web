@@ -1,0 +1,23 @@
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button.icon-button {
+  min-width: 36px;
+  padding: 0;
+
+  .mat-button-wrapper, .mat-button-wrapper label {
+    position: relative;
+    display: block;
+    height: 36px;
+  }
+
+  label { cursor: pointer; }
+
+  .mat-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+}

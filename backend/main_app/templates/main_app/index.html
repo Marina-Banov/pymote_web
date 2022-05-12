@@ -2,23 +2,20 @@
 
 {% block content %}
     <main>
-    <form enctype="multipart/form-data" method="post"
-          action={% url 'upload_network' %}>
-        {% csrf_token %}
-        <div>
-            <label for="file">
-                Load pickle
-            </label>
-            <input id="file" name="file" type="file"
-               onchange="document.getElementById('file-label').innerHTML =
-               document.getElementById('file').files[0].name"/>
-            <span id="file-label"></span>
-        </div>
-
-        <button type="submit">Upload</button>
-    </form>
-    {% if image %}
-        <img src="{{ image }}" alt="Network graph">
-    {% endif %}
+    <h1>Pymote backend server</h1>
+    <h2>REST API endpoints</h2>
+    <details class="endpoint post">
+        <summary>[POST] /api/upload_network</summary>
+        <ul>
+            <li>
+                <b>Request:</b><br>
+                file: (binary)
+            </li>
+            <li>
+                <b>Response (JSON):</b><br>
+                image: (base64)
+            </li>
+        </ul>
+    </details>
     </main>
 {% endblock %}
