@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
 
-import { RestService } from "../../http/rest.service";
+import { Network } from "../../models/network";
 
 @Component({
   selector: "app-home",
@@ -9,37 +8,15 @@ import { RestService } from "../../http/rest.service";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  public image = "";
-  public error = "";
-  public myForm: FormGroup;
+  public network: Network;
 
-  constructor(protected restService: RestService) {
-    this.myForm = new FormGroup({
-      file: new FormControl("", [Validators.required]),
-      fileSource: new FormControl("", [Validators.required]),
-    });
+  constructor() {
+    this.network = new Network();
   }
 
   ngOnInit(): void {}
 
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.myForm.patchValue({
-        fileSource: file,
-      });
-      const formData = new FormData();
-      formData.append("file", this.myForm.get("fileSource")?.value);
-      this.restService.uploadNetwork(formData).subscribe(
-        (res) => {
-          this.error = "";
-          this.image = res.image;
-        },
-        (_) => {
-          this.image = "";
-          this.error = "Something went wrong!";
-        }
-      );
-    }
+  public updateNetwork(network: Network): void {
+    this.network = network;
   }
 }
