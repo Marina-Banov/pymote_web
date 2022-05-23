@@ -1,13 +1,20 @@
-import base64
+import json
 import os
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
+from networkx.readwrite import json_graph
+from pymote.node import Node
 from pymote import read_pickle
 from rest_framework.decorators import api_view
 from pymote_backend.settings import MEDIA_ROOT
-import matplotlib.pyplot as plt
+
+
+def convert(o):
+    if isinstance(o, Node):
+        return o.id
+    raise TypeError
 
 
 @api_view(['POST'])
@@ -23,14 +30,13 @@ def upload_network(request):
         fs.delete(filename)
 
         net.get_fig()
-        filename = fs.save(".".join(f.name.split(".")[:-1])+'.png', f)
-        plt.savefig(fs.path(filename))
-        with fs.open(filename) as image_file:
-            image_base64 = base64.b64encode(image_file.read())
-        fs.delete(filename)
-
-        res = {'image': 'data:image/png;base64,' + image_base64}
-        return JsonResponse(res)
+        data = json_graph.node_link_data(net)
+        data = json.dumps(data, default=convert)
+        data = json.loads(data)
+        for i, pos in enumerate(net.pos.keys()):
+            data["nodes"][i]["x"] = net.pos[pos][0]
+            data["nodes"][i]["y"] = net.pos[pos][1]
+        return JsonResponse(data)
 
 
 class IndexView(View):
