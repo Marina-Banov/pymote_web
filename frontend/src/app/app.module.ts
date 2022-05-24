@@ -14,10 +14,19 @@ import {
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HttpErrorInterceptor } from "./http/http-error-interceptor";
-import { HomeComponent, UploadButtonComponent } from "./components";
+import {
+  HomeComponent,
+  NetworkGraphComponent,
+  UploadButtonComponent,
+} from "./components";
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, UploadButtonComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    UploadButtonComponent,
+    NetworkGraphComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

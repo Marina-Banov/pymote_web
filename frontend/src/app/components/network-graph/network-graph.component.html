@@ -1,0 +1,19 @@
+<svg [attr.width]="width + margin.left + margin.right"
+     [attr.height]="height + margin.top + margin.bottom">
+  <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
+    <line *ngFor="let link of network?.links"
+          class="line"
+          [attr.x1]="getCoordinate(link.source, 'x')"
+          [attr.y1]="getCoordinate(link.source, 'y')"
+          [attr.x2]="getCoordinate(link.target, 'x')"
+          [attr.y2]="getCoordinate(link.target, 'y')"
+    ></line>
+    <g *ngFor="let node of network?.nodes"
+       class="node"
+       [attr.transform]="'translate(' + node.x + ',' + (height-node.y) + ')'"
+    >
+      <circle r="6" style="fill: #ff0000"></circle>
+      <text dx="12" dy=".35em">{{node.id}}</text>
+    </g>
+  </g>
+</svg>
