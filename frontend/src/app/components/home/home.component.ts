@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { PymoteNetwork } from "../../models/pymote-models";
+import { PymoteNetwork, PymoteNode } from "../../models/pymote-models";
 
 @Component({
   selector: "app-home",
@@ -9,6 +9,7 @@ import { PymoteNetwork } from "../../models/pymote-models";
 })
 export class HomeComponent implements OnInit {
   public network?: PymoteNetwork;
+  public selectedNode?: PymoteNode;
 
   constructor() {}
 
@@ -16,5 +17,9 @@ export class HomeComponent implements OnInit {
 
   public updateNetwork(network: PymoteNetwork): void {
     this.network = network;
+  }
+
+  public selectNode(node: PymoteNode): void {
+    this.selectedNode = node;
   }
 }

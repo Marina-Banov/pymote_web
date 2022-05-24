@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { PymoteNetwork } from "../../models/pymote-models";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { PymoteNetwork, PymoteNode } from "../../models/pymote-models";
 
 @Component({
   selector: "app-network-graph",
@@ -21,8 +21,11 @@ export class NetworkGraphComponent implements OnInit {
     "#000000",
   ];
   @Input() network?: PymoteNetwork;
+  @Output() selectNode: EventEmitter<PymoteNode>;
 
-  constructor() {}
+  constructor() {
+    this.selectNode = new EventEmitter();
+  }
 
   ngOnInit(): void {}
 
@@ -33,5 +36,9 @@ export class NetworkGraphComponent implements OnInit {
         : this.height - (this.network.nodes[index]?.info?.position[1] || 0);
     }
     return 0;
+  }
+
+  public onNodeClick(node: PymoteNode) {
+    this.selectNode.emit(node);
   }
 }

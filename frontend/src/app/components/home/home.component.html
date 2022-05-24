@@ -3,9 +3,12 @@
 </header>
 
 <main>
-  <app-network-graph [network]="network"></app-network-graph>
+  <app-network-graph
+    [network]="network"
+    (selectNode)="selectNode($event)">
+  </app-network-graph>
   <section>
     <app-network-inspector [network]="network"></app-network-inspector>
-    <app-node-inspector></app-node-inspector>
+    <app-node-inspector [node]="selectedNode"></app-node-inspector>
   </section>
 </main>

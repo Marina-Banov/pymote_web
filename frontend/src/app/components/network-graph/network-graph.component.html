@@ -17,7 +17,7 @@
        class="node"
        [attr.transform]="'translate(' + node.info!!.position[0] + ',' + (height-node.info!!.position[1]) + ')'"
     > <!-- TODO watch out for null safety! -->
-      <circle r="6" style="fill: #ff0000"></circle>
+      <circle r="6" style="fill: #ff0000" (click)="onNodeClick(node)"></circle>
       <text dx="12" dy=".35em">{{node.info?.id}}</text>
     </g>
   </g>
