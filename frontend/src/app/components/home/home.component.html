@@ -1,6 +1,11 @@
-<div class="toolbar">
+<header class="toolbar">
   <app-upload-button (updateNetwork)="updateNetwork($event)"></app-upload-button>
-</div>
-<app-network-graph [network]="network"></app-network-graph>
-<app-network-inspector></app-network-inspector>
-<app-node-inspector></app-node-inspector>
+</header>
+
+<main>
+  <app-network-graph [network]="network"></app-network-graph>
+  <section>
+    <app-network-inspector [network]="network"></app-network-inspector>
+    <app-node-inspector></app-node-inspector>
+  </section>
+</main>

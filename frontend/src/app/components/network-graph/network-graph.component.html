@@ -1,5 +1,10 @@
-<svg [attr.width]="width + margin.left + margin.right"
-     [attr.height]="height + margin.top + margin.bottom">
+<svg
+  width="100%"
+  height="100%"
+  preserveAspectRatio="xMinYMin meet"
+  [attr.viewBox]="'0 0 ' + width + ' ' + height"
+  [style.max-width]="500"
+  [style.max-height]="500">
   <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
     <line *ngFor="let link of network?.links"
           class="line"

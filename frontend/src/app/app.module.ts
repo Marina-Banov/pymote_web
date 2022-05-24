@@ -10,6 +10,7 @@ import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from "@angular/material/snack-bar";
+import { Json2TreeModule } from "ngx-json-tree";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -42,6 +43,7 @@ import {
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    Json2TreeModule,
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },

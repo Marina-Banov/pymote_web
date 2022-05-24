@@ -1,8 +1,13 @@
 export class PymoteNetwork {
   algorithms?: {};
   algorithmState?: PymoteAlgorithmState;
+  currentAlgorithm?: PymoteAlgorithm;
   nodes: PymoteNode[] = [];
   links: PymoteLink[] = [];
+}
+
+class PymoteAlgorithm {
+  statusKeys: string[] = [];
 }
 
 class PymoteAlgorithmState {

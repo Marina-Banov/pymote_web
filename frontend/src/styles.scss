@@ -43,3 +43,6 @@ button.icon-button {
   background-color: $mat-warn;
   .mat-button { color: #ffffff; }
 }
+
+.jnode-key, .jnode-toggler { cursor: pointer }
+.child-jnode { margin: 0 }

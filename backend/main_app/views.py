@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from networkx.readwrite import json_graph
+from pymote.algorithm import NodeAlgorithm
 from pymote.node import Node
 from pymote import read_pickle
 from rest_framework.decorators import api_view
@@ -44,6 +45,12 @@ def upload_network(request):
             res["nodes"].append(node)
 
         res["links"] = json_graph.node_link_data(net)["links"]
+
+        current_algorithm = net.get_current_algorithm()
+        if isinstance(current_algorithm, NodeAlgorithm):
+            res["currentAlgorithm"] = {
+                "statusKeys": current_algorithm.STATUS.keys()
+            }
 
         res = json.dumps(res, default=convert)
         res = json.loads(res)

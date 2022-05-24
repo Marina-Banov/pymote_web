@@ -1,4 +1,18 @@
-.toolbar {
-  margin-top: 50px;
-  margin-left: 50px;
+header, main {
+  margin: 0 50px;
+}
+
+header {
+  padding-top: 50px;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  app-network-graph {
+    flex-grow: 1;
+    max-width: 500px;
+  }
 }
