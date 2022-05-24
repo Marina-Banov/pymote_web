@@ -1,5 +1,6 @@
 import json
 import os
+import numpy as np
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -14,6 +15,8 @@ from pymote_backend.settings import MEDIA_ROOT
 def convert(o):
     if isinstance(o, Node):
         return o.id
+    if isinstance(o, np.ndarray):
+        return o.tolist()
     raise TypeError
 
 
@@ -29,14 +32,22 @@ def upload_network(request):
         net = read_pickle(fs.path(filename))
         fs.delete(filename)
 
-        net.get_fig()
-        data = json_graph.node_link_data(net)
-        data = json.dumps(data, default=convert)
-        data = json.loads(data)
-        for i, pos in enumerate(net.pos.keys()):
-            data["nodes"][i]["x"] = net.pos[pos][0]
-            data["nodes"][i]["y"] = net.pos[pos][1]
-        return JsonResponse(data)
+        res = net.get_dic()
+
+        res["nodes"] = []
+        for n in net:
+            node = n.get_dic()
+            node["info"] = node.pop("1. info")
+            node["communication"] = node.pop("2. communication")
+            node["memory"] = node.pop("3. memory")
+            node["sensors"] = node.pop("4. sensors")
+            res["nodes"].append(node)
+
+        res["links"] = json_graph.node_link_data(net)["links"]
+
+        res = json.dumps(res, default=convert)
+        res = json.loads(res)
+        return JsonResponse(res)
 
 
 class IndexView(View):

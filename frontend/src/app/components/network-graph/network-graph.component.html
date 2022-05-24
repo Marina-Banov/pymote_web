@@ -10,10 +10,10 @@
     ></line>
     <g *ngFor="let node of network?.nodes"
        class="node"
-       [attr.transform]="'translate(' + node.x + ',' + (height-node.y) + ')'"
-    >
+       [attr.transform]="'translate(' + node.info!!.position[0] + ',' + (height-node.info!!.position[1]) + ')'"
+    > <!-- TODO watch out for null safety! -->
       <circle r="6" style="fill: #ff0000"></circle>
-      <text dx="12" dy=".35em">{{node.id}}</text>
+      <text dx="12" dy=".35em">{{node.info?.id}}</text>
     </g>
   </g>
 </svg>

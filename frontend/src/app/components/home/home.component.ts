@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { D3Network } from "../../models/d3-models";
+import { PymoteNetwork } from "../../models/pymote-models";
 
 @Component({
   selector: "app-home",
@@ -8,13 +8,13 @@ import { D3Network } from "../../models/d3-models";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  public network?: D3Network;
+  public network?: PymoteNetwork;
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  public updateNetwork(network: D3Network): void {
+  public updateNetwork(network: PymoteNetwork): void {
     this.network = network;
   }
 }

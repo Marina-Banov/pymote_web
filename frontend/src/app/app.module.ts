@@ -17,6 +17,8 @@ import { HttpErrorInterceptor } from "./http/http-error-interceptor";
 import {
   HomeComponent,
   NetworkGraphComponent,
+  NetworkInspectorComponent,
+  NodeInspectorComponent,
   UploadButtonComponent,
 } from "./components";
 
@@ -24,8 +26,10 @@ import {
   declarations: [
     AppComponent,
     HomeComponent,
-    UploadButtonComponent,
     NetworkGraphComponent,
+    NetworkInspectorComponent,
+    NodeInspectorComponent,
+    UploadButtonComponent,
   ],
   imports: [
     BrowserModule,

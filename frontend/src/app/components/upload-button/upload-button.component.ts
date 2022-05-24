@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { RestService } from "../../http/rest.service";
-import { D3Network } from "../../models/d3-models";
+import { PymoteNetwork } from "../../models/pymote-models";
 
 @Component({
   selector: "app-upload-button",
@@ -10,7 +10,7 @@ import { D3Network } from "../../models/d3-models";
   styleUrls: ["./upload-button.component.scss"],
 })
 export class UploadButtonComponent implements OnInit {
-  @Output() updateNetwork: EventEmitter<D3Network>;
+  @Output() updateNetwork: EventEmitter<PymoteNetwork>;
   public loading = false;
   public uploadForm: FormGroup;
 

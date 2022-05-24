@@ -7,13 +7,43 @@
     <details class="endpoint post">
         <summary>[POST] /api/upload_network</summary>
         <ul>
+            <li>Creates new session which is always linked to one network</li>
             <li>
-                <b>Request:</b><br>
-                file: (binary)
+                <b>Request (form data):</b><br>
+                <pre>{
+    file: binary
+}</pre>
             </li>
             <li>
                 <b>Response (JSON):</b><br>
-                image: (base64)
+                <pre>{
+    algorithms: {},
+    nodes: [{
+        info: {
+            id: number,
+            status: string,
+            position: [number, number],
+            orientation: number
+        },
+        communication: {
+            outbox: {},
+            range: number,
+            inbox: {}
+        },
+        sensors: {},
+        memory: {}
+    }],
+    algorithmState: {
+        step: number,
+        finished: boolean,
+        name: string
+    },
+    links: [{
+        source: number,
+        target: number,
+        weight: number
+    }]
+}</pre>
             </li>
         </ul>
     </details>
