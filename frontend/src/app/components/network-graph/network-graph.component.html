@@ -6,19 +6,29 @@
   [style.max-width]="500"
   [style.max-height]="500">
   <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
-    <line *ngFor="let link of network?.links"
+    <line *ngFor="let link of _network?.links"
           class="line"
           [attr.x1]="getCoordinate(link.source, 'x')"
           [attr.y1]="getCoordinate(link.source, 'y')"
           [attr.x2]="getCoordinate(link.target, 'x')"
           [attr.y2]="getCoordinate(link.target, 'y')"
     ></line>
-    <g *ngFor="let node of network?.nodes"
+    <g *ngFor="let node of _network?.nodes"
        class="node"
        [attr.transform]="'translate(' + node.info!!.position[0] + ',' + (height-node.info!!.position[1]) + ')'"
     > <!-- TODO watch out for null safety! -->
-      <circle r="6" style="fill: #ff0000" (click)="onNodeClick(node)"></circle>
+      <circle
+        r="6"
+        style="stroke: #000000"
+        [style.fill]="colorMap[node?.info?.status || ''] || '#FF0000'"
+        (click)="onNodeClick(node)">
+      </circle>
       <text dx="12" dy=".35em">{{node.info?.id}}</text>
     </g>
   </g>
 </svg>
+
+<div *ngFor="let status of _network?.currentAlgorithm?.statusKeys">
+  <div class="status-indicator" [style.background]="colorMap[status]"></div>
+  <span>{{status}}</span>
+</div>
