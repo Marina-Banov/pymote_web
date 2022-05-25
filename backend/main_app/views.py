@@ -21,14 +21,14 @@ def convert(o):
     raise TypeError
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def upload_network(request):
     if request.method == "POST":
         # uploading a pymote pickle
-        f = request.FILES.get('file')
+        f = request.FILES.get("file")
         if f is None:
-            return redirect('index')
-        fs = FileSystemStorage(location=os.path.join(MEDIA_ROOT, 'tmp_networks'))
+            return JsonResponse({})
+        fs = FileSystemStorage(location=os.path.join(MEDIA_ROOT, "tmp_networks"))
         filename = fs.save(f.name, f)
         net = read_pickle(fs.path(filename))
         fs.delete(filename)
@@ -55,8 +55,10 @@ def upload_network(request):
         res = json.dumps(res, default=convert)
         res = json.loads(res)
         return JsonResponse(res)
+    if request.method == "GET":
+        return redirect("index")
 
 
 class IndexView(View):
     def get(self, request):
-        return render(request, 'main_app/index.html')
+        return render(request, "main_app/index.html")

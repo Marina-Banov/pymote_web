@@ -19,7 +19,6 @@ export class NetworkGraphComponent implements OnInit {
     "#FF00FF",
     "#FFFF00",
     "#FFFFFF",
-    "#000000",
   ];
   public colorMap: any = {};
 
@@ -27,13 +26,11 @@ export class NetworkGraphComponent implements OnInit {
   @Input() set network(n: PymoteNetwork | undefined) {
     if (!n) return;
     this._network = n;
-    let i = -1;
     this._network.currentAlgorithm?.statusKeys.forEach((key, index) => {
       if (key == "IDLE") {
-        this.colorMap[key] = this.colors[7];
+        this.colorMap[key] = "#000000";
       } else {
-        i = index % 8 == 7 ? 0 : i + 1;
-        this.colorMap[key] = this.colors[i];
+        this.colorMap[key] = this.colors[index % this.colors.length];
       }
     });
   }

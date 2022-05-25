@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+
 import { PymoteNode } from "../../models/pymote-models";
 
 @Component({
@@ -7,7 +8,11 @@ import { PymoteNode } from "../../models/pymote-models";
   styleUrls: ["../network-inspector/network-inspector.component.scss"],
 })
 export class NodeInspectorComponent implements OnInit {
-  @Input() node?: PymoteNode;
+  public _node? = {};
+  @Input() set node(n: PymoteNode | undefined) {
+    if (!n) return;
+    this._node = n;
+  }
 
   constructor() {}
 

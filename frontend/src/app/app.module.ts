@@ -4,6 +4,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {
@@ -40,6 +42,8 @@ import {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,

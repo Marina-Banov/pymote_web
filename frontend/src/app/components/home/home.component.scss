@@ -7,6 +7,8 @@ header {
 }
 
 main {
+  margin-top: 10px;
+  padding-bottom: 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -14,5 +16,10 @@ main {
   app-network-graph {
     flex-grow: 1;
     max-width: 500px;
+  }
+
+  section > *:not(:last-child) {
+    display: block;
+    margin-bottom: 10px;
   }
 }
