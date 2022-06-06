@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
 
   public updateNetwork(network: PymoteNetwork): void {
     this.network = network;
+    this.selectedNode = undefined;
   }
 
   public selectNode(node: PymoteNode): void {

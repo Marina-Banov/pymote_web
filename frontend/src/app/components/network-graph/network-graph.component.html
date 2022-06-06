@@ -4,7 +4,7 @@
       width="100%"
       height="100%"
       preserveAspectRatio="xMinYMin meet"
-      [attr.viewBox]="'0 0 ' + width + ' ' + height"
+      [attr.viewBox]="'0 0 ' + (width+margin.left+margin.right) + ' ' + (height+margin.top+margin.bottom)"
       [style.max-width]="500"
       [style.max-height]="500">
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">

@@ -10,8 +10,11 @@ import { PymoteNode } from "../../models/pymote-models";
 export class NodeInspectorComponent implements OnInit {
   public _node? = {};
   @Input() set node(n: PymoteNode | undefined) {
-    if (!n) return;
-    this._node = n;
+    if (!n) {
+      this._node = {};
+    } else {
+      this._node = n;
+    }
   }
 
   constructor() {}
