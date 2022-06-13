@@ -10,11 +10,14 @@ import { PymoteNetwork } from "../../models/pymote-models";
 export class NetworkInspectorComponent implements OnInit {
   public _network? = {};
   @Input() set network(n: PymoteNetwork | undefined) {
-    if (!n) return;
-    this._network = {
-      algorithms: n.algorithms,
-      algorithmState: n.algorithmState,
-    };
+    if (!n) {
+      this._network = {};
+    } else {
+      this._network = {
+        algorithms: n.algorithms,
+        algorithmState: n.algorithmState,
+      };
+    }
   }
 
   constructor() {}

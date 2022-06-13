@@ -1,12 +1,13 @@
 import json
 import os
 import numpy as np
+from django.contrib.sessions.backends.db import SessionStore
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.sessions.backends.db import SessionStore
 from networkx.readwrite import json_graph
+from cPickle import UnpicklingError
 from pymote.algorithm import NodeAlgorithm
 from pymote.node import Node
 from pymote import read_pickle
@@ -41,8 +42,13 @@ def upload_network(request):
 
         # uploading a pymote pickle
         filename = fs.save(f.name, f)
-        net = read_pickle(fs.path(filename))
-        # fs.delete(filename)
+        try:
+            # TODO read_pickle should close the file before raising an
+            #  exception!
+            net = read_pickle(fs.path(filename))
+        except UnpicklingError:
+            fs.delete(filename)
+            return JsonResponse({})
 
         res = net.get_dic()
 
