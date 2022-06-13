@@ -132,7 +132,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # NOTE file based Django sessions
 #  https://docs.djangoproject.com/en/4.0/topics/http/sessions/#using-file-based-sessions
-SESSION_ENGINE = "django.contrib.sessions.backends.file"
+# SESSION_ENGINE = "django.contrib.sessions.backends.file"
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_FILE_PATH = os.path.join(MEDIA_ROOT, "tmp_networks")
 
 # Default primary key field type

@@ -25,20 +25,24 @@ def convert(o):
 @api_view(["POST"])
 def upload_network(request):
     if request.method == "POST":
-        print(request.session.session_key)
-        if request.session.session_key is None:
-            s = SessionStore()
-            s.create()
-            print(s.session_key)  # not the same :(
-            request.session["session_key"] = s.session_key
-        # uploading a pymote pickle
         f = request.FILES.get("file")
         if f is None:
             return JsonResponse({})
-        fs = FileSystemStorage(location=SESSION_FILE_PATH)
+
+        if request.session.session_key is None:
+            s = SessionStore()
+            s.create()
+            request.session["session_key"] = s.session_key
+
+        s = request.session["session_key"]
+        fs = FileSystemStorage(location=os.path.join(SESSION_FILE_PATH, s))
+        for old_file in fs.listdir('')[1]:
+            fs.delete(old_file)
+
+        # uploading a pymote pickle
         filename = fs.save(f.name, f)
         net = read_pickle(fs.path(filename))
-        fs.delete(filename)
+        # fs.delete(filename)
 
         res = net.get_dic()
 
@@ -60,8 +64,11 @@ def upload_network(request):
             }
 
         res = json.dumps(res, default=convert)
+        with fs.open("%s.json" % filename.split('.')[0], "w") as f:
+            f.write(res)
         res = json.loads(res)
         return JsonResponse(res)
+
     if request.method == "GET":
         return redirect("index")
 
