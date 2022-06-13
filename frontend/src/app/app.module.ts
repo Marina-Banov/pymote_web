@@ -22,6 +22,9 @@ import {
   NetworkGraphComponent,
   NetworkInspectorComponent,
   NodeInspectorComponent,
+  PlayButtonComponent,
+  ResetButtonComponent,
+  StepButtonComponent,
   UploadButtonComponent,
 } from "./components";
 
@@ -32,6 +35,9 @@ import {
     NetworkGraphComponent,
     NetworkInspectorComponent,
     NodeInspectorComponent,
+    PlayButtonComponent,
+    ResetButtonComponent,
+    StepButtonComponent,
     UploadButtonComponent,
   ],
   imports: [

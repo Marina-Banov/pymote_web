@@ -13,6 +13,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 button.icon-button {
   min-width: 36px;
+  margin-right: 10px;
   padding: 0;
 
   &.mat-button-disabled {
