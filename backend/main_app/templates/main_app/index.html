@@ -51,12 +51,14 @@
         </ul>
     </details>
     <details class="endpoint post">
-        <summary>[POST] /api/run_simulation</summary>
+        <summary>[POST] /api/simulation_action</summary>
         <ul>
-            <li>Runs the simulation on the current network</li>
+            <li>Manipulates the simulation of the current network</li>
             <li>
-                <b>Request:</b><br>
-                <pre>{}</pre>
+                <b>Request (JSON):</b><br>
+                <pre>{
+    action: "run" || "step" || "reset"
+}</pre>
             </li>
             <li>
                 <b>Response (JSON):</b><br>
