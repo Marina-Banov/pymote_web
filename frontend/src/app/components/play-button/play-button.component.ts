@@ -20,7 +20,7 @@ export class PlayButtonComponent implements OnInit {
 
   onPlay(): void {
     this.loading = true;
-    this.restService.playSimulation().subscribe({
+    this.restService.simulationAction({ action: "run" }).subscribe({
       next: (res) => this.updateNetwork.emit(res),
       complete: () => (this.loading = false),
     });

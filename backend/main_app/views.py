@@ -9,7 +9,7 @@ from networkx.readwrite import json_graph
 from cPickle import UnpicklingError
 from pymote.algorithm import NodeAlgorithm
 from pymote.node import Node
-from pymote import read_pickle, Simulation
+from pymote import read_pickle, Simulation, write_pickle
 from rest_framework.decorators import api_view
 from pymote_backend.settings import SESSION_FILE_PATH
 
@@ -82,7 +82,7 @@ def upload_network(request):
 
 
 @api_view(["POST"])
-def run_simulation(request):
+def simulation_action(request):
     if request.method == "POST":
         if request.session.session_key is None:
             s = SessionStore()
@@ -106,13 +106,21 @@ def run_simulation(request):
             return HttpResponseNotFound()
 
         sim = Simulation(net)
-        sim.stepping = True
-        sim.run_all()
+        action_type = request.data["action"]
+        if action_type == "run":
+            sim.run_all()
+        elif action_type == "step":
+            sim.run(1)
+        elif action_type == "reset":
+            sim.reset()
+        else:
+            return
 
         res = get_dict_from_net(net)
         res = json.dumps(res, default=convert)
         with fs.open("%s.json" % filename.split('.')[0], "w") as f:
             f.write(res)
+        write_pickle(net, fs.path(filename))
         res = json.loads(res)
         return JsonResponse(res)
 

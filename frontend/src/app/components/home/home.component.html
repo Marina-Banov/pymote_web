@@ -1,8 +1,8 @@
 <header class="toolbar">
   <app-upload-button (updateNetwork)="updateNetwork($event)"></app-upload-button>
   <app-play-button (updateNetwork)="updateNetwork($event)"></app-play-button>
-  <app-step-button></app-step-button>
-  <app-reset-button></app-reset-button>
+  <app-step-button (updateNetwork)="updateNetwork($event)"></app-step-button>
+  <app-reset-button (updateNetwork)="updateNetwork($event)"></app-reset-button>
 </header>
 
 <main>
