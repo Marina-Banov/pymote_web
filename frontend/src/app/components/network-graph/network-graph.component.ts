@@ -42,7 +42,7 @@ export class NetworkGraphComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public getCoordinate(index: any, c: string) {
+  public getCoordinate(index: any, c: string): number | undefined {
     if (typeof index == "number" && this._network) {
       return c == "x"
         ? this._network.nodes[index]?.info?.position[0]
@@ -51,7 +51,7 @@ export class NetworkGraphComponent implements OnInit {
     return 0;
   }
 
-  public onNodeClick(node: PymoteNode) {
+  public onNodeClick(node: PymoteNode): void {
     this.selectNode.emit(node);
   }
 }

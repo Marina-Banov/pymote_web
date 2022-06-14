@@ -4,6 +4,7 @@
 
 .endpoint {
     border-radius: 6px;
+    margin-bottom: 10px;
 }
 
 .endpoint.get {

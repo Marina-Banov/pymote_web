@@ -24,7 +24,7 @@ export class UploadButtonComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onFileChange(event: any) {
+  onFileChange(event: any): void {
     if (event.target.files.length === 0) return;
     const file = event.target.files[0];
     this.uploadForm.patchValue({ fileSource: file });

@@ -1,4 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+
+import { RestService } from "../../http/rest.service";
+import { PymoteNetwork } from "../../models/pymote-models";
 
 @Component({
   selector: "app-play-button",
@@ -6,9 +9,20 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./play-button.component.scss"],
 })
 export class PlayButtonComponent implements OnInit {
+  @Output() updateNetwork: EventEmitter<PymoteNetwork>;
   public loading = false;
 
-  constructor() {}
+  constructor(protected restService: RestService) {
+    this.updateNetwork = new EventEmitter();
+  }
 
   ngOnInit(): void {}
+
+  onPlay(): void {
+    this.loading = true;
+    this.restService.playSimulation().subscribe({
+      next: (res) => this.updateNetwork.emit(res),
+      complete: () => (this.loading = false),
+    });
+  }
 }

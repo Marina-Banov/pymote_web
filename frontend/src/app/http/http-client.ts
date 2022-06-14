@@ -76,7 +76,7 @@ export class HttpClientService {
    * @param param
    * @returns void
    */
-  public removeHeader(param: string) {
+  public removeHeader(param: string): void {
     if (param) {
       this._headers.delete(String(param));
     }
@@ -104,7 +104,7 @@ export class HttpClientService {
     return this._http.get<T>(this._url, httpOptions);
   }
 
-  public post<T>(data: any): Observable<T> {
+  public post<T>(data: any = {}): Observable<T> {
     const httpOptions = { headers: this._headers, search: this._queryParams };
     return this._http.post<T>(this._url, data, httpOptions);
   }

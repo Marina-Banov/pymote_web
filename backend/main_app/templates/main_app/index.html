@@ -50,5 +50,49 @@
             </li>
         </ul>
     </details>
+    <details class="endpoint post">
+        <summary>[POST] /api/run_simulation</summary>
+        <ul>
+            <li>Runs the simulation on the current network</li>
+            <li>
+                <b>Request:</b><br>
+                <pre>{}</pre>
+            </li>
+            <li>
+                <b>Response (JSON):</b><br>
+                <pre>{
+    algorithms: {},
+    nodes: [{
+        info: {
+            id: number,
+            status: string,
+            position: [number, number],
+            orientation: number
+        },
+        communication: {
+            outbox: {},
+            range: number,
+            inbox: {}
+        },
+        sensors: {},
+        memory: {}
+    }],
+    algorithmState: {
+        step: number,
+        finished: boolean,
+        name: string
+    },
+    links: [{
+        source: number,
+        target: number,
+        weight: number
+    }],
+    currentAlgorithm: {
+        statusKeys: string[]
+    }
+}</pre>
+            </li>
+        </ul>
+    </details>
     </main>
 {% endblock %}
