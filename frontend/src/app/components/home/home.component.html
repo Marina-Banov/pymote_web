@@ -1,8 +1,10 @@
 <header class="toolbar">
   <app-upload-button (updateNetwork)="updateNetwork($event)"></app-upload-button>
-  <app-play-button (updateNetwork)="updateNetwork($event)"></app-play-button>
-  <app-step-button (updateNetwork)="updateNetwork($event)"></app-step-button>
-  <app-reset-button (updateNetwork)="updateNetwork($event)"></app-reset-button>
+  <app-simulation-button *ngFor="let button of simulationButtons"
+    (updateNetwork)="updateNetwork($event)"
+    [action]="button.action"
+    [icon]="button.icon"
+  ></app-simulation-button>
 </header>
 
 <main>

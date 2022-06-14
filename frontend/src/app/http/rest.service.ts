@@ -13,8 +13,8 @@ export class RestService {
     return this.httpClientService.post<PymoteNetwork>(data);
   }
 
-  public simulationAction(data: any): Observable<PymoteNetwork> {
+  public simulationAction(action: string): Observable<PymoteNetwork> {
     this.httpClientService.buildURL("/api/simulation_action");
-    return this.httpClientService.post<PymoteNetwork>(data);
+    return this.httpClientService.post<PymoteNetwork>({ action });
   }
 }

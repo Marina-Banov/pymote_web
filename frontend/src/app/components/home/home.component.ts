@@ -10,8 +10,15 @@ import { PymoteNetwork, PymoteNode } from "../../models/pymote-models";
 export class HomeComponent implements OnInit {
   public network?: PymoteNetwork;
   public selectedNode?: PymoteNode;
+  public simulationButtons: any[];
 
-  constructor() {}
+  constructor() {
+    this.simulationButtons = [
+      { action: "run", icon: "play_arrow" },
+      { action: "step", icon: "fast_forward" },
+      { action: "reset", icon: "fast_rewind" },
+    ];
+  }
 
   ngOnInit(): void {}
 
