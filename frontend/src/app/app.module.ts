@@ -5,8 +5,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {
   MatSnackBarModule,
@@ -18,6 +20,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HttpErrorInterceptor } from "./http/http-error-interceptor";
 import {
+  ControlsComponent,
   HomeComponent,
   NetworkGraphComponent,
   NetworkInspectorComponent,
@@ -29,6 +32,7 @@ import {
 @NgModule({
   declarations: [
     AppComponent,
+    ControlsComponent,
     HomeComponent,
     NetworkGraphComponent,
     NetworkInspectorComponent,
@@ -45,8 +49,10 @@ import {
     BrowserAnimationsModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatDividerModule,
     MatIconModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
     Json2TreeModule,

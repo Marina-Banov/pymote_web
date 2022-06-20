@@ -8,24 +8,31 @@
       [style.max-width]="500"
       [style.max-height]="500">
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
-        <line *ngFor="let link of _network?.links"
-              class="line"
-              [attr.x1]="getCoordinate(link.source, 'x')"
-              [attr.y1]="getCoordinate(link.source, 'y')"
-              [attr.x2]="getCoordinate(link.target, 'x')"
-              [attr.y2]="getCoordinate(link.target, 'y')"
-        ></line>
+        <g *ngIf="controlsService.controls?.edges">
+          <line *ngFor="let link of _network?.links"
+                class="line"
+                [attr.x1]="getCoordinate(link.source, 'x')"
+                [attr.y1]="getCoordinate(link.source, 'y')"
+                [attr.x2]="getCoordinate(link.target, 'x')"
+                [attr.y2]="getCoordinate(link.target, 'y')"
+          ></line>
+        </g>
         <g *ngFor="let node of _network?.nodes"
            class="node"
            [attr.transform]="'translate(' + node.info!!.position[0] + ',' + (height-node.info!!.position[1]) + ')'"
         > <!-- TODO watch out for null safety! -->
           <circle
+            *ngIf="controlsService.controls?.nodes"
             r="6"
             style="stroke: #000000"
             [style.fill]="colorMap[node?.info?.status || ''] || '#FF0000'"
             (click)="onNodeClick(node)">
           </circle>
-          <text dx="12" dy=".35em">{{node.info?.id}}</text>
+          <text *ngIf="controlsService.controls?.labels"
+                dx="12"
+                dy=".35em">
+            {{node.info?.id}}
+          </text>
         </g>
       </g>
     </svg>

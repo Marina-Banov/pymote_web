@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { PymoteNetwork, PymoteNode } from "../../models/pymote-models";
+import { ControlsService } from "../../services/controls.service";
 
 @Component({
   selector: "app-network-graph",
@@ -36,7 +37,7 @@ export class NetworkGraphComponent implements OnInit {
   }
   @Output() selectNode: EventEmitter<PymoteNode>;
 
-  constructor() {
+  constructor(public controlsService: ControlsService) {
     this.selectNode = new EventEmitter();
   }
 

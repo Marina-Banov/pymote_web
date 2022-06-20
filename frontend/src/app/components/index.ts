@@ -1,3 +1,4 @@
+export { ControlsComponent } from "./controls/controls.component";
 export { HomeComponent } from "./home/home.component";
 export { NetworkGraphComponent } from "./network-graph/network-graph.component";
 export { NetworkInspectorComponent } from "./network-inspector/network-inspector.component";
