@@ -52,6 +52,11 @@ export class NetworkGraphComponent implements OnInit {
     return 0;
   }
 
+  public getCoordinateByNodeId(id: number, c: string): number | undefined {
+    const index = this._network?.nodes.map((n) => n.info?.id).indexOf(id);
+    return this.getCoordinate(index, c);
+  }
+
   public onNodeClick(node: PymoteNode): void {
     this.selectNode.emit(node);
   }

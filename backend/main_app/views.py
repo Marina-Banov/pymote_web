@@ -22,7 +22,7 @@ def convert(o):
     raise TypeError
 
 
-def get_dict_from_net(net):
+def get_dict_from_net(net, tree_key=None):
     res = net.get_dic()
 
     res["nodes"] = []
@@ -41,6 +41,10 @@ def get_dict_from_net(net):
         res["currentAlgorithm"] = {
             "statusKeys": current_algorithm.STATUS.keys()
         }
+
+    if tree_key is not None:
+        tree_net = net.get_tree_net(tree_key)
+        res["treeEdges"] = tree_net.edges()
 
     return res
 
@@ -70,7 +74,8 @@ def upload_network(request):
             fs.delete(filename)
             return JsonResponse({})
 
-        res = get_dict_from_net(net)
+        tree_key = request.data["treeKey"]
+        res = get_dict_from_net(net, tree_key)
         res = json.dumps(res, default=convert)
         with fs.open("%s.json" % filename.split('.')[0], "w") as f:
             f.write(res)
@@ -110,13 +115,15 @@ def simulation_action(request):
         if action_type == "run":
             sim.run_all()
         elif action_type == "step":
-            sim.run(1)
+            step_size = request.data["stepSize"]
+            sim.run(step_size)
         elif action_type == "reset":
             sim.reset()
         else:
             return
 
-        res = get_dict_from_net(net)
+        tree_key = request.data["treeKey"]
+        res = get_dict_from_net(net, tree_key)
         res = json.dumps(res, default=convert)
         with fs.open("%s.json" % filename.split('.')[0], "w") as f:
             f.write(res)

@@ -4,6 +4,7 @@ export class PymoteNetwork {
   currentAlgorithm?: PymoteAlgorithm;
   nodes: PymoteNode[] = [];
   links: PymoteLink[] = [];
+  treeEdges: number[][] = [];
 }
 
 class PymoteAlgorithm {

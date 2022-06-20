@@ -17,6 +17,15 @@
                 [attr.y2]="getCoordinate(link.target, 'y')"
           ></line>
         </g>
+        <g *ngIf="controlsService.controls?.tree">
+          <line *ngFor="let link of _network?.treeEdges"
+                class="line strong"
+                [attr.x1]="getCoordinateByNodeId(link[0], 'x')"
+                [attr.y1]="getCoordinateByNodeId(link[0], 'y')"
+                [attr.x2]="getCoordinateByNodeId(link[1], 'x')"
+                [attr.y2]="getCoordinateByNodeId(link[1], 'y')"
+          ></line>
+        </g>
         <g *ngFor="let node of _network?.nodes"
            class="node"
            [attr.transform]="'translate(' + node.info!!.position[0] + ',' + (height-node.info!!.position[1]) + ')'"

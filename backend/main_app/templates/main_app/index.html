@@ -11,7 +11,8 @@
             <li>
                 <b>Request (form data):</b><br>
                 <pre>{
-    file: binary
+    file: binary,
+    treeKey: string
 }</pre>
             </li>
             <li>
@@ -45,7 +46,8 @@
     }],
     currentAlgorithm: {
         statusKeys: string[]
-    }
+    },
+    treeEdges: [[number, number]]
 }</pre>
             </li>
         </ul>
@@ -57,7 +59,9 @@
             <li>
                 <b>Request (JSON):</b><br>
                 <pre>{
-    action: "run" || "step" || "reset"
+    action: "run" || "step" || "reset",
+    stepSize: number,
+    treeKey: string
 }</pre>
             </li>
             <li>
@@ -91,7 +95,8 @@
     }],
     currentAlgorithm: {
         statusKeys: string[]
-    }
+    },
+    treeEdges: [[number, number]]
 }</pre>
             </li>
         </ul>

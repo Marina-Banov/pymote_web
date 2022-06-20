@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { HttpClientService } from "./http-client";
+import { HttpClientService } from "./http-client.service";
 import { PymoteNetwork } from "../models/pymote-models";
 
 @Injectable({ providedIn: "root" })
