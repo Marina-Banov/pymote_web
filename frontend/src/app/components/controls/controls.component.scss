@@ -1,0 +1,13 @@
+.mat-card {
+  .mat-divider {
+    margin: 5px 0;
+  }
+
+  .mat-checkbox {
+    display: block;
+
+    &:last-of-type {
+      margin-bottom: 10px;
+    }
+  }
+}

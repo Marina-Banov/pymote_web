@@ -3,47 +3,54 @@
     <mat-card-title>Controls</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form>
-      <mat-form-field appearance="fill">
-        <mat-label>Step size</mat-label>
-        <input matInput type="number" min="1">
-      </mat-form-field>
-    </form>
+    <mat-form-field appearance="outline">
+      <mat-label>Step size</mat-label>
+      <input matInput
+             type="number"
+             min="1"
+             [ngModelOptions]="{standalone: true}"
+             [(ngModel)]="controlsService.controls.steps"
+      >
+      <mat-error>Step size must be greater than 0</mat-error>
+    </mat-form-field>
+
     <mat-divider inset></mat-divider>
-    <mat-checkbox
-      id="nodes"
-      [checked]="controlsService.controls.nodes"
-      (change)="controlsService.update($event)"
-    >
-      Nodes
-    </mat-checkbox>
-    <mat-checkbox
-      id="edges"
-      [checked]="controlsService.controls.edges"
-      (change)="controlsService.update($event)"
-    >
-      Edges
-    </mat-checkbox>
-    <mat-checkbox
-      id="messages"
-      [checked]="controlsService.controls.messages"
-      (change)="controlsService.update($event)"
-    >
-      Messages
-    </mat-checkbox>
-    <mat-checkbox
-      id="labels"
-      [checked]="controlsService.controls.labels"
-      (change)="controlsService.update($event)"
-    >
-      Labels
-    </mat-checkbox>
+
+    <mat-checkbox id="nodes"
+                  color="primary"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="controlsService.controls.nodes"
+    >Nodes</mat-checkbox>
+    <mat-checkbox id="edges"
+                  color="primary"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="controlsService.controls.edges"
+    >Edges</mat-checkbox>
+    <mat-checkbox id="messages"
+                  color="primary"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="controlsService.controls.messages"
+    >Messages</mat-checkbox>
+    <mat-checkbox id="labels"
+                  color="primary"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="controlsService.controls.labels"
+    >Labels</mat-checkbox>
+
     <mat-divider inset></mat-divider>
-    <mat-checkbox>Tree</mat-checkbox>
+
+    <mat-checkbox id="tree"
+                  color="primary"
+                  [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="controlsService.controls.tree"
+    >Tree</mat-checkbox>
     <form>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Key</mat-label>
-        <input matInput>
+        <input matInput
+               [disabled]="!controlsService.controls.tree"
+               [ngModelOptions]="{standalone: true}"
+               [(ngModel)]="controlsService.controls.treeKey">
       </mat-form-field>
     </form>
   </mat-card-content>
