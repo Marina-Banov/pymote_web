@@ -32,9 +32,17 @@ class PymoteNodeInfo {
 }
 
 class PymoteNodeCommunication {
-  inbox?: {};
-  outbox?: {};
+  inbox: PymoteMessage[] = [];
+  outbox: PymoteMessage[] = [];
   range?: number;
+}
+
+export class PymoteMessage {
+  data: any;
+  destination?: number;
+  source?: number;
+  header?: string;
+  direction?: string;
 }
 
 export class PymoteLink {

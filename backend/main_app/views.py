@@ -22,14 +22,40 @@ def convert(o):
     raise TypeError
 
 
+def get_dict_from_msg(msg):
+    msg["header"] = msg.pop("1 header")
+    msg["source"] = msg.pop("2 source")
+    msg["destination"] = msg.pop("3 destination")
+    msg["data"] = msg.pop("4 data")
+    return msg
+
+
 def get_dict_from_net(net, tree_key=None):
     res = net.get_dic()
 
     res["nodes"] = []
     for n in net:
-        node = n.get_dic()
+        node = n.get_dic()  # TODO remove numbers from dict keys?
         node["info"] = node.pop("1. info")
         node["communication"] = node.pop("2. communication")
+
+        inbox = []
+        for msg in node["communication"]["inbox"].values():
+            inbox.append(get_dict_from_msg(msg))
+        node["communication"]["inbox"] = inbox
+
+        outbox = []
+        for msg in node["communication"]["outbox"].values():
+            if msg["3 destination"] is None:
+                # broadcasting
+                for neighbor in net.adj[n].keys():
+                    nbr_msg = msg.copy()
+                    nbr_msg["3 destination"] = neighbor
+                    outbox.append(get_dict_from_msg(nbr_msg))
+            else:
+                outbox.append(get_dict_from_msg(msg))
+        node["communication"]["outbox"] = outbox
+
         node["memory"] = node.pop("3. memory")
         node["sensors"] = node.pop("4. sensors")
         res["nodes"].append(node)

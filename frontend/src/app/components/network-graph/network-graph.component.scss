@@ -1,5 +1,11 @@
-.line { stroke: #777777; }
-.line.strong { stroke-width: 3px }
+.line {
+  stroke: #777777;
+
+  &.strong {
+    stroke-width: 2px;
+    stroke: #444444
+  }
+}
 
 mat-card-footer {
   display: flex;

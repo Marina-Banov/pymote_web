@@ -7,46 +7,64 @@
       [attr.viewBox]="'0 0 ' + (width+margin.left+margin.right) + ' ' + (height+margin.top+margin.bottom)"
       [style.max-width]="500"
       [style.max-height]="500">
+
       <g [attr.transform]="'translate(' + margin.left + ',' + margin.top + ')'">
         <g *ngIf="controlsService.controls?.edges">
           <line *ngFor="let link of _network?.links"
-                class="line"
-                [attr.x1]="getCoordinate(link.source, 'x')"
-                [attr.y1]="getCoordinate(link.source, 'y')"
-                [attr.x2]="getCoordinate(link.target, 'x')"
-                [attr.y2]="getCoordinate(link.target, 'y')"
-          ></line>
+            class="line"
+            [attr.x1]="getCoordinate(link.source, 'x')"
+            [attr.y1]="getCoordinate(link.source, 'y')"
+            [attr.x2]="getCoordinate(link.target, 'x')"
+            [attr.y2]="getCoordinate(link.target, 'y')">
+          </line>
         </g>
+
         <g *ngIf="controlsService.controls?.tree">
           <line *ngFor="let link of _network?.treeEdges"
-                class="line strong"
-                [attr.x1]="getCoordinateByNodeId(link[0], 'x')"
-                [attr.y1]="getCoordinateByNodeId(link[0], 'y')"
-                [attr.x2]="getCoordinateByNodeId(link[1], 'x')"
-                [attr.y2]="getCoordinateByNodeId(link[1], 'y')"
-          ></line>
+            class="line strong"
+            [attr.x1]="getCoordinate(getIndex(link[0]), 'x')"
+            [attr.y1]="getCoordinate(getIndex(link[0]), 'y')"
+            [attr.x2]="getCoordinate(getIndex(link[1]), 'x')"
+            [attr.y2]="getCoordinate(getIndex(link[1]), 'y')">
+          </line>
         </g>
-        <g *ngFor="let node of _network?.nodes"
-           class="node"
-           [attr.transform]="'translate(' + node.info!!.position[0] + ',' + (height-node.info!!.position[1]) + ')'"
-        > <!-- TODO watch out for null safety! -->
-          <circle
-            *ngIf="controlsService.controls?.nodes"
-            r="6"
+
+        <g *ngIf="controlsService.controls?.nodes">
+          <circle *ngFor="let node of _network?.nodes; let i = index"
+            [attr.cx]="getCoordinate(i, 'x')"
+            [attr.cy]="getCoordinate(i, 'y')"
+            r="7"
             style="stroke: #000000"
             [style.fill]="colorMap[node?.info?.status || ''] || '#FF0000'"
             (click)="onNodeClick(node)">
           </circle>
-          <text *ngIf="controlsService.controls?.labels"
-                dx="12"
-                dy=".35em">
+        </g>
+
+        <g *ngIf="controlsService.controls?.labels">
+          <text *ngFor="let node of _network?.nodes; let i = index"
+            [attr.x]="getCoordinate(i, 'x') + 12"
+            [attr.y]="getCoordinate(i, 'y') - 6">
             {{node.info?.id}}
           </text>
+        </g>
+
+        <g *ngIf="controlsService.controls?.messages">
+          <g *ngFor="let node of _network?.nodes">
+            <circle *ngFor="let msg of getMessages(node)"
+              [attr.cx]="getCoordinateFromMessage(msg, 'x')"
+              [attr.cy]="getCoordinateFromMessage(msg, 'y')"
+              r="4"
+              style="stroke: #000000"
+              [style.fill]="colors[msg.direction == 'in' ? 1 : 2]">
+            </circle>
+          </g>
         </g>
       </g>
     </svg>
   </mat-card-content>
+
   <mat-divider inset></mat-divider>
+
   <mat-card-footer>
     <div *ngFor="let status of _network?.currentAlgorithm?.statusKeys">
       <div class="status-indicator" [style.background]="colorMap[status]"></div>
