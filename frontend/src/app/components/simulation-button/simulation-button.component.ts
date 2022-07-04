@@ -33,9 +33,12 @@ export class SimulationButtonComponent implements OnInit {
     if (this.action == "step") {
       data.stepSize = Math.max(this.controlsService.controls.steps, 1);
     }
-    this.restService.simulationAction(data).subscribe({
-      next: (res) => this.updateNetwork.emit(res),
-      complete: () => (this.loading = false),
-    });
+    this.restService
+      .simulationAction(data)
+      .subscribe({
+        next: (res) => this.updateNetwork.emit(res),
+        error: () => {},
+      })
+      .add(() => (this.loading = false));
   }
 }

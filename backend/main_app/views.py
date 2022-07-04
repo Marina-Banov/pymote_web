@@ -89,8 +89,11 @@ def upload_network(request):
 
         s = request.session["session_key"]
         fs = FileSystemStorage(location=os.path.join(SESSION_FILE_PATH, s))
-        for old_file in fs.listdir('')[1]:
-            fs.delete(old_file)
+        if not fs.exists(''):
+            os.makedirs(fs.location)
+        else:
+            for old_file in fs.listdir('')[1]:
+                fs.delete(old_file)
 
         # uploading a pymote pickle
         filename = fs.save(f.name, f)

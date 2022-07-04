@@ -1,4 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { RestService } from "../../http/rest.service";
@@ -12,6 +19,8 @@ import { ControlsService } from "../../services/controls.service";
 })
 export class UploadButtonComponent implements OnInit {
   @Output() updateNetwork: EventEmitter<PymoteNetwork>;
+  @ViewChild("fileInput")
+  private fileInput: ElementRef | undefined;
   public loading = false;
   public uploadForm: FormGroup;
 
@@ -38,9 +47,17 @@ export class UploadButtonComponent implements OnInit {
     formData.append("treeKey", this.controlsService.controls.treeKey);
 
     this.loading = true;
-    this.restService.uploadNetwork(formData).subscribe({
-      next: (res) => this.updateNetwork.emit(res),
-      complete: () => (this.loading = false),
-    });
+    this.restService
+      .uploadNetwork(formData)
+      .subscribe({
+        next: (res) => this.updateNetwork.emit(res),
+        error: () => {},
+      })
+      .add(() => {
+        if (this.fileInput) {
+          this.fileInput.nativeElement.value = "";
+        }
+        this.loading = false;
+      });
   }
 }

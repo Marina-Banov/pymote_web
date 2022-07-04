@@ -5,5 +5,10 @@
       <mat-spinner *ngIf="loading" [diameter]="22" [strokeWidth]="3"></mat-spinner>
     </label>
   </button>
-  <input formControlName="file" id="file" type="file" (change)="onFileChange($event)" />
+  <input
+    #fileInput
+    formControlName="file"
+    id="file"
+    type="file"
+    (change)="onFileChange($event)" />
 </form>

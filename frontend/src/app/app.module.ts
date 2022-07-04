@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
@@ -21,6 +22,7 @@ import { AppComponent } from "./app.component";
 import { HttpErrorInterceptor } from "./http/http-error-interceptor";
 import {
   ControlsComponent,
+  ErrorDialogComponent,
   HomeComponent,
   NetworkGraphComponent,
   NetworkInspectorComponent,
@@ -33,6 +35,7 @@ import {
   declarations: [
     AppComponent,
     ControlsComponent,
+    ErrorDialogComponent,
     HomeComponent,
     NetworkGraphComponent,
     NetworkInspectorComponent,
@@ -50,6 +53,7 @@ import {
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatDividerModule,
     MatIconModule,
     MatInputModule,
