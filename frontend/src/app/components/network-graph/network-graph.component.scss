@@ -1,0 +1,25 @@
+.line {
+  stroke: #777777;
+
+  &.strong {
+    stroke-width: 2px;
+    stroke: #444444
+  }
+}
+
+mat-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 15px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 0;
+
+  .status-indicator {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-right: 10px;
+    border: 1px solid #000000;
+  }
+}

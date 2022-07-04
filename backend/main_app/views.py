@@ -1,38 +1,168 @@
-import base64
+import json
 import os
+import numpy as np
+from django.contrib.sessions.backends.db import SessionStore
 from django.core.files.storage import FileSystemStorage
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
-from django.views import View
-from pymote import read_pickle
+from networkx.readwrite import json_graph
+from cPickle import UnpicklingError
+from pymote.algorithm import NodeAlgorithm
+from pymote.node import Node
+from pymote import read_pickle, Simulation, write_pickle
 from rest_framework.decorators import api_view
-from pymote_backend.settings import MEDIA_ROOT
-import matplotlib.pyplot as plt
+from pymote_backend.settings import SESSION_FILE_PATH
 
 
-@api_view(['POST'])
+def convert(o):
+    if isinstance(o, Node):
+        return o.id
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    raise TypeError
+
+
+def get_dict_from_msg(msg):
+    msg["header"] = msg.pop("1 header")
+    msg["source"] = msg.pop("2 source")
+    msg["destination"] = msg.pop("3 destination")
+    msg["data"] = msg.pop("4 data")
+    return msg
+
+
+def get_dict_from_net(net, tree_key=None):
+    res = net.get_dic()
+
+    res["nodes"] = []
+    for n in net:
+        node = n.get_dic()  # TODO remove numbers from dict keys?
+        node["info"] = node.pop("1. info")
+        node["communication"] = node.pop("2. communication")
+
+        inbox = []
+        for msg in node["communication"]["inbox"].values():
+            inbox.append(get_dict_from_msg(msg))
+        node["communication"]["inbox"] = inbox
+
+        outbox = []
+        for msg in node["communication"]["outbox"].values():
+            if msg["3 destination"] is None:
+                # broadcasting
+                for neighbor in net.adj[n].keys():
+                    nbr_msg = msg.copy()
+                    nbr_msg["3 destination"] = neighbor
+                    outbox.append(get_dict_from_msg(nbr_msg))
+            else:
+                outbox.append(get_dict_from_msg(msg))
+        node["communication"]["outbox"] = outbox
+
+        node["memory"] = node.pop("3. memory")
+        node["sensors"] = node.pop("4. sensors")
+        res["nodes"].append(node)
+
+    res["links"] = json_graph.node_link_data(net)["links"]
+
+    current_algorithm = net.get_current_algorithm()
+    if isinstance(current_algorithm, NodeAlgorithm):
+        res["currentAlgorithm"] = {
+            "statusKeys": current_algorithm.STATUS.keys()
+        }
+
+    if tree_key is not None:
+        tree_net = net.get_tree_net(tree_key)
+        res["treeEdges"] = tree_net.edges()
+
+    return res
+
+
+@api_view(["POST"])
 def upload_network(request):
     if request.method == "POST":
-        # uploading a pymote pickle
-        f = request.FILES.get('file')
+        f = request.FILES.get("file")
         if f is None:
-            return redirect('index')
-        fs = FileSystemStorage(location=os.path.join(MEDIA_ROOT, 'tmp_networks'))
+            return JsonResponse({})
+
+        if request.session.session_key is None:
+            s = SessionStore()
+            s.create()
+            request.session["session_key"] = s.session_key
+
+        s = request.session["session_key"]
+        fs = FileSystemStorage(location=os.path.join(SESSION_FILE_PATH, s))
+        if not fs.exists(''):
+            os.makedirs(fs.location)
+        else:
+            for old_file in fs.listdir('')[1]:
+                fs.delete(old_file)
+
+        # uploading a pymote pickle
         filename = fs.save(f.name, f)
-        net = read_pickle(fs.path(filename))
-        fs.delete(filename)
+        try:
+            net = read_pickle(fs.path(filename))
+        except UnpicklingError:
+            fs.delete(filename)
+            return JsonResponse({})
 
-        net.get_fig()
-        filename = fs.save(".".join(f.name.split(".")[:-1])+'.png', f)
-        plt.savefig(fs.path(filename))
-        with fs.open(filename) as image_file:
-            image_base64 = base64.b64encode(image_file.read())
-        fs.delete(filename)
-
-        res = {'image': 'data:image/png;base64,' + image_base64}
+        tree_key = request.data["treeKey"]
+        res = get_dict_from_net(net, tree_key)
+        res = json.dumps(res, default=convert)
+        with fs.open("%s.json" % filename.split('.')[0], "w") as f:
+            f.write(res)
+        res = json.loads(res)
         return JsonResponse(res)
 
+    if request.method == "GET":
+        return redirect("index")
 
-class IndexView(View):
-    def get(self, request):
-        return render(request, 'main_app/index.html')
+
+@api_view(["POST"])
+def simulation_action(request):
+    if request.method == "POST":
+        if request.session.session_key is None:
+            s = SessionStore()
+            s.create()
+            request.session["session_key"] = s.session_key
+            return HttpResponseNotFound()
+
+        s = request.session["session_key"]
+        fs = FileSystemStorage(location=os.path.join(SESSION_FILE_PATH, s))
+        if not fs.exists(''):
+            # os.makedirs(fs.location)
+            return HttpResponseNotFound()
+
+        net = None
+        for filename in fs.listdir('')[1]:
+            if filename.endswith(".npc.gz"):
+                net = read_pickle(fs.path(filename))
+                break
+
+        if net is None:
+            return HttpResponseNotFound()
+
+        sim = Simulation(net)
+        action_type = request.data["action"]
+        if action_type == "run":
+            sim.run_all()
+        elif action_type == "step":
+            step_size = request.data["stepSize"]
+            sim.run(step_size)
+        elif action_type == "reset":
+            sim.reset()
+        else:
+            return
+
+        tree_key = request.data["treeKey"]
+        res = get_dict_from_net(net, tree_key)
+        res = json.dumps(res, default=convert)
+        with fs.open("%s.json" % filename.split('.')[0], "w") as f:
+            f.write(res)
+        write_pickle(net, fs.path(filename))
+        res = json.loads(res)
+        return JsonResponse(res)
+
+    if request.method == "GET":
+        return redirect("index")
+
+
+def index(request):
+    return render(request, "main_app/index.html")

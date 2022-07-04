@@ -1,8 +1,22 @@
-<form [formGroup]="myForm">
-  <button mat-raised-button color="primary" class="icon-button">
-    <label for="file"><mat-icon>upload</mat-icon></label>
-  </button>
-  <input formControlName="file" id="file" type="file" (change)="onFileChange($event)" />
-  <p *ngIf="error">{{error}}</p>
-</form>
-<img *ngIf="image" src="{{image}}" alt="Network graph">
+<header class="toolbar">
+  <app-upload-button (updateNetwork)="updateNetwork($event)"></app-upload-button>
+  <app-simulation-button *ngFor="let button of simulationButtons"
+    (updateNetwork)="updateNetwork($event)"
+    [action]="button.action"
+    [icon]="button.icon"
+  ></app-simulation-button>
+</header>
+
+<main>
+  <section>
+    <app-controls></app-controls>
+  </section>
+  <app-network-graph
+    [network]="network"
+    (selectNode)="selectNode($event)">
+  </app-network-graph>
+  <section>
+    <app-network-inspector [network]="network"></app-network-inspector>
+    <app-node-inspector [node]="selectedNode"></app-node-inspector>
+  </section>
+</main>

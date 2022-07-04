@@ -1,9 +1,25 @@
+@use '@angular/material' as mat;
+
+$primary-palette: mat.$indigo-palette;
+$accent-theme: mat.$pink-palette;
+$warn-theme: mat.$red-palette;
+
+$mat-primary: map-get($primary-palette, 500);
+$mat-accent: map-get($accent-theme, 500);
+$mat-warn: map-get($warn-theme, 500);
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 button.icon-button {
   min-width: 36px;
+  margin-right: 10px;
   padding: 0;
+
+  &.mat-button-disabled {
+    background-color: map-get($primary-palette, 300) !important;
+    pointer-events: none;
+  }
 
   .mat-button-wrapper, .mat-button-wrapper label {
     position: relative;
@@ -13,11 +29,30 @@ button.icon-button {
 
   label { cursor: pointer; }
 
-  .mat-icon {
+  .mat-icon, .mat-spinner  {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
+    margin: 0;
+    circle { stroke: #FFFFFF; }
   }
 }
+
+.snackbar-error {
+  background-color: $mat-warn;
+  .mat-button { color: #FFFFFF; }
+}
+
+.card.mat-card {
+  box-shadow: 0 1px 1px -2px rgb(0 0 0 / 20%),
+              0 2px 2px 0 rgb(0 0 0 / 14%),
+              0px 1px 5px 0px rgb(0 0 0 / 12%);
+  background-color: #FCFCFC;
+
+  .mat-card-header-text { margin: 0; }
+}
+
+.jnode-key, .jnode-toggler { cursor: pointer }
+.child-jnode { margin: 0 }

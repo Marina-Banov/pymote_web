@@ -1,0 +1,14 @@
+<form [formGroup]="uploadForm">
+  <button mat-raised-button color="primary" class="icon-button" [disabled]="loading">
+    <label for="file">
+      <mat-icon *ngIf="!loading">upload</mat-icon>
+      <mat-spinner *ngIf="loading" [diameter]="22" [strokeWidth]="3"></mat-spinner>
+    </label>
+  </button>
+  <input
+    #fileInput
+    formControlName="file"
+    id="file"
+    type="file"
+    (change)="onFileChange($event)" />
+</form>

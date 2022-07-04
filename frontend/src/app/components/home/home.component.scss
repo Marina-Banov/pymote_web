@@ -1,9 +1,25 @@
-form {
-  padding-top: 50px;
-  margin-left: 50px;
+header, main {
+  margin: 0 50px;
+}
 
-  input[type="file"] {
-    width: 0;
-    height: 0;
+header {
+  padding-top: 50px;
+}
+
+main {
+  margin-top: 10px;
+  padding-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  app-network-graph {
+    flex-grow: 1;
+    max-width: 500px;
+  }
+
+  section > *:not(:last-child) {
+    display: block;
+    margin-bottom: 10px;
   }
 }

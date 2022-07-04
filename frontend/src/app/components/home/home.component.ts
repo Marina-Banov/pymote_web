@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
 
-import { RestService } from "../../http/rest.service";
+import { PymoteNetwork, PymoteNode } from "../../models/pymote-models";
 
 @Component({
   selector: "app-home",
@@ -9,37 +8,26 @@ import { RestService } from "../../http/rest.service";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  public image = "";
-  public error = "";
-  public myForm: FormGroup;
+  public network?: PymoteNetwork;
+  public selectedNode?: PymoteNode;
+  public simulationButtons: any[];
 
-  constructor(protected restService: RestService) {
-    this.myForm = new FormGroup({
-      file: new FormControl("", [Validators.required]),
-      fileSource: new FormControl("", [Validators.required]),
-    });
+  constructor() {
+    this.simulationButtons = [
+      { action: "run", icon: "play_arrow" },
+      { action: "step", icon: "fast_forward" },
+      { action: "reset", icon: "fast_rewind" },
+    ];
   }
 
   ngOnInit(): void {}
 
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.myForm.patchValue({
-        fileSource: file,
-      });
-      const formData = new FormData();
-      formData.append("file", this.myForm.get("fileSource")?.value);
-      this.restService.uploadNetwork(formData).subscribe(
-        (res) => {
-          this.error = "";
-          this.image = res.image;
-        },
-        (_) => {
-          this.image = "";
-          this.error = "Something went wrong!";
-        }
-      );
-    }
+  public updateNetwork(network: PymoteNetwork): void {
+    this.network = network;
+    this.selectedNode = undefined;
+  }
+
+  public selectNode(node: PymoteNode): void {
+    this.selectedNode = node;
   }
 }

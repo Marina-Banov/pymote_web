@@ -76,7 +76,7 @@ export class HttpClientService {
    * @param param
    * @returns void
    */
-  public removeHeader(param: string) {
+  public removeHeader(param: string): void {
     if (param) {
       this._headers.delete(String(param));
     }
@@ -95,34 +95,34 @@ export class HttpClientService {
     return this;
   }
 
-  public get(id?: any): Observable<Object> {
+  public get<T>(id?: any): Observable<T> {
     if (id) {
       this.addURLPath(id);
     }
 
     const httpOptions = { headers: this._headers, search: this._queryParams };
-    return this._http.get(this._url, httpOptions);
+    return this._http.get<T>(this._url, httpOptions);
   }
 
-  public post(data: any): Observable<Object> {
+  public post<T>(data: any = {}): Observable<T> {
     const httpOptions = { headers: this._headers, search: this._queryParams };
-    return this._http.post(this._url, data, httpOptions);
+    return this._http.post<T>(this._url, data, httpOptions);
   }
 
-  public put(id: any, data: any): Observable<Object> {
+  public put<T>(id: any, data: any): Observable<T> {
     this.addURLPath(id || 0);
     const httpOptions = { headers: this._headers, search: this._queryParams };
-    return this._http.put(this._url, data, httpOptions);
+    return this._http.put<T>(this._url, data, httpOptions);
   }
 
-  public delete(id: any): Observable<Object> {
+  public delete<T>(id: any): Observable<T> {
     this.addURLPath(id);
     const httpOptions = { headers: this._headers, search: this._queryParams };
-    return this._http.delete(this._url, httpOptions);
+    return this._http.delete<T>(this._url, httpOptions);
   }
 
-  public deleteWithParam(id: any): Observable<Object> {
+  public deleteWithParam<T>(id: any): Observable<T> {
     const httpOptions = { headers: this._headers, search: this._queryParams };
-    return this._http.delete(this._url, httpOptions);
+    return this._http.delete<T>(this._url, httpOptions);
   }
 }

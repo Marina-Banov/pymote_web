@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>{{error.split('\n')[0]}}</h1>
+
+<div mat-dialog-content>
+  <pre>{{error}}</pre>
+</div>
+
+<div mat-dialog-actions [align]="'end'">
+  <button mat-button [mat-dialog-close]="true">OK</button>
+</div>

@@ -4,9 +4,10 @@
 
 .endpoint {
     border-radius: 6px;
+    margin-bottom: 10px;
 }
 
-.endpoint.put {
+.endpoint.get {
     background: #bcd9fa;
     border: 2px solid #78adea;
 }
@@ -21,6 +22,7 @@ summary, pre {
 summary {
     padding: 10px;
     cursor: pointer;
+    font-size: 15px;
 }
 summary::-webkit-details-marker, summary::marker {
     margin-right: 15px;
@@ -28,4 +30,5 @@ summary::-webkit-details-marker, summary::marker {
 
 details ul li {
     margin-bottom: 10px;
+    font-size: 14px;
 }
