@@ -57,6 +57,17 @@ def get_dict_from_net(net, tree_key=None):
         node["communication"]["outbox"] = outbox
 
         node["memory"] = node.pop("3. memory")
+        for key, value in node["memory"].items():
+            if isinstance(value, list) and len(value) > 0:
+                for i in range(len(value)):
+                    if isinstance(value[i], Node):
+                        value[i] = value[i].id
+            elif isinstance(value, dict):
+                for k, v in value.items():
+                    if isinstance(v, Node):
+                        value[k] = v.id
+                    if isinstance(k, Node):
+                        value[k.id] = value.pop(k)
         node["sensors"] = node.pop("4. sensors")
         res["nodes"].append(node)
 
@@ -150,13 +161,13 @@ def simulation_action(request):
             sim.reset()
         else:
             return
+        write_pickle(net, fs.path(filename))
 
         tree_key = request.data["treeKey"]
         res = get_dict_from_net(net, tree_key)
         res = json.dumps(res, default=convert)
         with fs.open("%s.json" % filename.split('.')[0], "w") as f:
             f.write(res)
-        write_pickle(net, fs.path(filename))
         res = json.loads(res)
         return JsonResponse(res)
 

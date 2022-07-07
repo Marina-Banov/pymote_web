@@ -19,4 +19,5 @@ pip install djangorestframework==3.9.4
 python manage.py migrate
 python manage.py runserver
 ```
-The backend server is listening at http://localhost:8000/.
+The backend server is listening at http://localhost:8000/. Open the link in the browser to see the API documentation.
+![Pymote documentation](pymote.png "Pymote documentation")

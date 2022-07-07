@@ -6,7 +6,7 @@ import {
   HttpInterceptor,
   HttpErrorResponse,
 } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { EMPTY, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { SnackbarService } from "../services/snackbar.service";
 
@@ -20,6 +20,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
+        if (error.status === 200) {
+          return EMPTY;
+        }
         if (error.status === 500) {
           this.snackBarService.openDialog(error.error);
         } else {

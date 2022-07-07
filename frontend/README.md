@@ -1,9 +1,13 @@
 
 # PymoteFrontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
+Upload your Pymote network to the server and run your simulations or inspect elements of the network.
+
+![Pymote Web GUI](pymote.png "Pymote Web GUI")
 
 ## Installation
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
 
 Requirements:
 - node

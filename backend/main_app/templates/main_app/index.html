@@ -27,9 +27,19 @@
             orientation: number
         },
         communication: {
-            outbox: {},
+            outbox: [{
+                source: number,
+                destination: number,
+                data: {},
+                header: string
+            }],
             range: number,
-            inbox: {}
+            inbox: [{
+                source: number,
+                destination: number,
+                data: {},
+                header: string
+            }]
         },
         sensors: {},
         memory: {}
@@ -76,9 +86,19 @@
             orientation: number
         },
         communication: {
-            outbox: {},
+            outbox: [{
+                source: number,
+                destination: number,
+                data: {},
+                header: string
+            }],
             range: number,
-            inbox: {}
+            inbox: [{
+                source: number,
+                destination: number,
+                data: {},
+                header: string
+            }]
         },
         sensors: {},
         memory: {}
